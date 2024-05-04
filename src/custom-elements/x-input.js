@@ -73,6 +73,12 @@ export class CustomInputElement extends InputBaseElement {
     set value(value) {
         this.#inputElement.value = value;
     }
+    get normalValue() {
+        return this.#inputElement.normalValue;
+    }
+    set normalValue(normalValue) {
+        this.#inputElement.normalValue = normalValue;
+    }
 
     /**
      *

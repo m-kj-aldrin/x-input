@@ -226,6 +226,10 @@ export class CustomSelectElement extends InputBaseElement {
             }
         });
     }
+    get normalValue() {
+        return this.#value;
+    }
+    set normalValue(normalValue) {}
 
     #attachClickOutside(remove = false) {
         this.#clickOutsideController.abort();

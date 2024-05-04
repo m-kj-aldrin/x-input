@@ -3,7 +3,9 @@ import { CustomInputElement } from "../src/custom-elements/x-input.js";
 
 document.body.addEventListener("input", (e) => {
     if (e.target instanceof CustomInputElement) {
-        console.log(e.target.label, +e.target.value);
+        console.log(`label: ${e.target.label}
+value: ${e.target.value}
+normal value: ${e.target.normalValue}`);
     }
 });
 

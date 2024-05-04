@@ -155,13 +155,13 @@ export class CustomToggleElement extends ButtonBaseElement {
         this.#setStateAttribute(invertState);
     }
 
+    get normalValue() {
+        return this.value;
+    }
+    set normalValue(normalValue) {}
+
     #attachListeners() {
         this.addEventListener("input", this.toggle.bind(this));
-        // this.addEventListener("pointerdown", this.toggle.bind(this));
-        // this.addEventListener(
-        //     "keydown",
-        //     (e) => (e.key == " " || e.key == "Enter") && this.toggle.call(this)
-        // );
     }
 
     toggle() {
@@ -169,8 +169,6 @@ export class CustomToggleElement extends ButtonBaseElement {
         let state = stateAttr == "on" ? true : false;
         let invertState = state ? "off" : "on";
         this.#setStateAttribute(invertState);
-
-        // this.emitInput();
     }
 
     connectedCallback() {}
