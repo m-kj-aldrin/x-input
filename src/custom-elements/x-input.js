@@ -3,6 +3,7 @@ import { CustomMomentaryElement, CustomToggleElement } from "./x-button.js";
 import { CustomNumberElement } from "./x-number.js";
 import { CustomRangeElement } from "./x-range.js";
 import { CustomSelectElement } from "./x-select.js";
+import { parseKeyValuePairs } from "../../../utils/strings.js";
 
 /**
  * @typedef {object} InputTypeNameMap
@@ -58,6 +59,22 @@ export class CustomInputElement extends InputBaseElement {
         let typeAttr = this.getAttribute("type");
 
         this.setType(typeAttr);
+
+        this.#getOptionAttr();
+        this.#getMiscAttr();
+    }
+
+    #getMiscAttr() {
+        let labelAttr = this.getAttribute("label");
+        this.label = labelAttr;
+    }
+
+    #getOptionAttr() {
+        let optionAttr = this.getAttribute("option");
+        if (!(typeof optionAttr == "string")) return;
+        let options = parseKeyValuePairs(optionAttr);
+
+        this.setOption(options);
     }
 
     get inputElement() {
@@ -65,6 +82,7 @@ export class CustomInputElement extends InputBaseElement {
     }
 
     set label(label) {
+        if (!(typeof label == "string")) return;
         this.setAttribute("label", label);
     }
     get label() {

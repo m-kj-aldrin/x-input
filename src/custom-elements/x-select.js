@@ -1,4 +1,4 @@
-import { findMatchingSibling } from "../utils/dom.js";
+import { findMatchingSibling, getActiveElement } from "../utils/dom.js";
 import { InputBaseElement } from "./base.js";
 import { CustomInputElement } from "./x-input.js";
 
@@ -104,10 +104,10 @@ export class CustomSelectElement extends InputBaseElement {
                 }
             });
 
-        this.shadowRoot.addEventListener(
-            "keydown",
-            this.#keyNavHandler.bind(this)
-        );
+        // this.shadowRoot.addEventListener(
+        //     "keydown",
+        //     this.#keyNavHandler.bind(this)
+        // );
 
         this.shadowRoot.addEventListener("slotchange", (e) => {
             /**@type {HTMLSlotElement} */
@@ -157,41 +157,41 @@ export class CustomSelectElement extends InputBaseElement {
         });
     }
 
-    /**@param {KeyboardEvent} e */
-    #keyNavHandler(e) {
-        let key = e.key;
-        switch (key) {
-            case "ArrowUp":
-            case "ArrowDown":
-                if (this.hasAttribute("open")) {
-                    if (document.activeElement instanceof CustomInputElement) {
-                        const firstOption =
-                            document.activeElement.querySelector(
-                                "x-option:not([selected])"
-                            );
-                        firstOption?.focus();
-                    } else if (
-                        document.activeElement instanceof CustomOptionElement
-                    ) {
-                        if (key == "ArrowUp") {
-                            findMatchingSibling(
-                                document.activeElement,
-                                "x-option:not([selected ])",
-                                false
-                            )?.focus();
-                        } else {
-                            findMatchingSibling(
-                                document.activeElement,
-                                "x-option:not([selected])",
-                                true
-                            )?.focus();
-                        }
-                    }
-                }
-            default:
-                break;
-        }
-    }
+    // /**@param {KeyboardEvent} e */
+    // #keyNavHandler(e) {
+    //     let key = e.key;
+    //     switch (key) {
+    //         case "ArrowUp":
+    //         case "ArrowDown":
+    //             if (this.hasAttribute("open")) {
+    //                 if (document.activeElement instanceof CustomInputElement) {
+    //                     const firstOption =
+    //                         document.activeElement.querySelector(
+    //                             "x-option:not([selected])"
+    //                         );
+    //                     firstOption?.focus();
+    //                 } else if (
+    //                     document.activeElement instanceof CustomOptionElement
+    //                 ) {
+    //                     if (key == "ArrowUp") {
+    //                         findMatchingSibling(
+    //                             document.activeElement,
+    //                             "x-option:not([selected ])",
+    //                             false
+    //                         )?.focus();
+    //                     } else {
+    //                         findMatchingSibling(
+    //                             document.activeElement,
+    //                             "x-option:not([selected])",
+    //                             true
+    //                         )?.focus();
+    //                     }
+    //                 }
+    //             }
+    //         default:
+    //             break;
+    //     }
+    // }
 
     /**@param {boolean} [force] */
     open(force) {
