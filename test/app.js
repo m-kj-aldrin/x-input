@@ -43,7 +43,6 @@ document.body.append(input2);
 const gridSelect = document.createElement("x-input").setType("select");
 gridSelect.label = "module type";
 gridSelect.setOption({ grid: true, noLabel: true });
-gridSelect.inputElement.open();
 gridSelect.innerHTML = `
 <x-option>pth</x-option>
 <x-option>lfo</x-option>
