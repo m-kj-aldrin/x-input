@@ -4,19 +4,33 @@ const buttonBaseTemplate = document.createElement("template");
 buttonBaseTemplate.innerHTML = `
 <style>
     :host{
+        box-sizing: border-box;
+
         cursor: pointer;
         border: 1px currentColor solid;
         border-bottom-width: 2px;
 
         background-color: #fff;
         display: inline-block;
-        padding: 2px 4px;
 
         user-select: none;
         -webkit-user-select: none;
+
+    }
+    :host(:not([square])){
+        padding: 2px 2px;
+    }
+    :host([square]){
+        width: 2ch;
+        aspect-ratio: 1/1;
+        text-align: center;
     }
     :host(:focus-within){
         border-bottom-color: red;
+    }
+    :host([keydown]) #inner{
+        color: red;
+        transition-delay: 0ms;
     }
     #inner{
         color: black;
@@ -44,15 +58,28 @@ export class ButtonBaseElement extends InputBaseElement {
         this.#attachListeners();
     }
 
+    setOption({ square = false }) {
+        this.toggleAttribute("square", square);
+    }
+
     /**@param {KeyboardEvent} e */
     #handleKeyPress(e) {
+        // if (this.validKeys(e)) {
+        //     if (e.type == "keydown" && !this.#keyPressState) {
+        //         this.#keyPressState = true;
+        //         this.emitInput();
+        //     }
+        //     if (e.type == "keyup") {
+        //         this.#keyPressState = false;
+        //     }
+        // }
         if (this.validKeys(e)) {
-            if (e.type == "keydown" && !this.#keyPressState) {
-                this.#keyPressState = true;
-                this.emitInput();
+            if (e.type == "keydown") {
+                this.toggleAttribute("keydown", true);
             }
             if (e.type == "keyup") {
-                this.#keyPressState = false;
+                this.emitInput();
+                this.removeAttribute("keydown");
             }
         }
     }
@@ -60,7 +87,10 @@ export class ButtonBaseElement extends InputBaseElement {
     #attachListeners() {
         this.addEventListener("keydown", this.#handleKeyPress.bind(this));
         this.addEventListener("keyup", this.#handleKeyPress.bind(this));
-        this.addEventListener("pointerdown", this.emitInput.bind(this));
+        this.addEventListener("pointerup", this.emitInput.bind(this));
+        this.addEventListener("focusout", (e) => {
+            this.removeAttribute("keydown");
+        });
     }
 
     connectedCallback() {}
@@ -70,7 +100,7 @@ export class ButtonBaseElement extends InputBaseElement {
 const customMomentaryTemplate = document.createElement("template");
 customMomentaryTemplate.innerHTML = `
 <style>
-    #inner[pulse]{
+    #inner[pulse],#inner:active{
         color: red;
         transition-delay: 0ms;
     }
@@ -102,7 +132,7 @@ export class CustomMomentaryElement extends ButtonBaseElement {
         this.addEventListener("input", this.#pulse.bind(this));
     }
 
-    setOption({}) {}
+    // setOption({}) {}
 
     get value() {
         return 0;
@@ -133,7 +163,7 @@ export class CustomToggleElement extends ButtonBaseElement {
         this.#attachListeners();
     }
 
-    setOption({}) {}
+    // setOption({}) {}
 
     /**@returns {"on" | "off"} */
     #getStateAttribute() {
