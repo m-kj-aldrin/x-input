@@ -239,6 +239,8 @@ export class CustomSelectElement extends InputBaseElement {
         if (!(e.target instanceof CustomOptionElement)) return;
         e.stopPropagation();
 
+        // console.log(e.target);
+
         this.shadowRoot.querySelector("x-option")?.remove();
 
         /**@type {CustomOptionElement} */ //@ts-ignore
@@ -363,7 +365,7 @@ export class CustomOptionElement extends HTMLElement {
         this.#value = valueAttr || this.textContent;
 
         if (this.hasAttribute("selected")) {
-            this.select();
+            this.select(true);
         }
 
         this.#attachListeners();
