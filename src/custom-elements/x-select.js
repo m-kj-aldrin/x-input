@@ -24,6 +24,8 @@ customSelectTemplate.innerHTML = `
         -webkit-user-select: none;
         max-width: max-content;
         position: relative;
+
+        --gap: 4px;
     }
     :host([open]) #list{
         opacity: 1;
@@ -42,8 +44,8 @@ customSelectTemplate.innerHTML = `
     
     #list{
         z-index: 100;
-        padding: 2px;
-        margin-top: 4px;
+        padding: var(--padding,4px);
+        margin-top: 2px;
 
         background-color: #fff;
         position: absolute;
@@ -52,7 +54,7 @@ customSelectTemplate.innerHTML = `
         pointer-events: none;
         display:flex;
         flex-direction: column;
-        gap: 4px;
+        gap: var(--gap,4px);
         border: 1px currentColor solid;
     } 
     :host([grid]) #list{
@@ -274,9 +276,11 @@ export class CustomSelectElement extends InputBaseElement {
         return this.#value;
     }
     set value(value) {
-        this.querySelectorAll("x-option").forEach((option, i) => {
-            if (option.value == value) {
-                option.dispatchEvent(new SelectEvent());
+        // console.log("select v: ", value);
+        this.#getAssignedOptions().forEach((option, i) => {
+            // console.log("opt value: ",option.value, value);
+            if (option.value == `${value}`) {
+                option.dispatchEvent(new SelectEvent(true));
             }
         });
     }
