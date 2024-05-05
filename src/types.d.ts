@@ -63,6 +63,7 @@ declare global {
 interface TypedCustomInputElement<T extends InputTypes>
     extends CustomInputElement {
     setOption: T["setOption"] | CustomInputElement['setOption'];
+    inputElement: T
 }
 
 // Utility type to transform a union to a tuple

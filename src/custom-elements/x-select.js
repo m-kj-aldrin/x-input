@@ -1,3 +1,4 @@
+import { findMatchingSibling } from "../utils/dom.js";
 import { InputBaseElement } from "./base.js";
 import { CustomInputElement } from "./x-input.js";
 
@@ -30,7 +31,7 @@ customSelectTemplate.innerHTML = `
     }
     #selected{
         cursor: pointer;
-        padding: 4px;
+        padding: 2px;
         border: 1px currentColor solid;
         border-bottom-width: 2px;
     }
@@ -40,7 +41,8 @@ customSelectTemplate.innerHTML = `
     }
     
     #list{
-        padding: 4px;
+        z-index: 100;
+        padding: 2px;
         margin-top: 4px;
 
         background-color: #fff;
@@ -53,6 +55,10 @@ customSelectTemplate.innerHTML = `
         gap: 4px;
         border: 1px currentColor solid;
     } 
+    :host([grid]) #list{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+    }
     ::slotted([selected]){
         filter: invert(1);
     }
@@ -77,8 +83,13 @@ export class CustomSelectElement extends InputBaseElement {
         this.value = this.getAttribute("value");
     }
 
+    setOption({ grid = false }) {
+        this.toggleAttribute("grid", grid);
+    }
+
     #attachListeners() {
         this.addEventListener("select", this.#selectHandler.bind(this));
+
         this.shadowRoot
             .getElementById("selected")
             .addEventListener("click", (e) => {
@@ -92,6 +103,11 @@ export class CustomSelectElement extends InputBaseElement {
                     this.open();
                 }
             });
+
+        this.shadowRoot.addEventListener(
+            "keydown",
+            this.#keyNavHandler.bind(this)
+        );
 
         this.shadowRoot.addEventListener("slotchange", (e) => {
             /**@type {HTMLSlotElement} */
@@ -139,6 +155,42 @@ export class CustomSelectElement extends InputBaseElement {
 
             this.open(false);
         });
+    }
+
+    /**@param {KeyboardEvent} e */
+    #keyNavHandler(e) {
+        let key = e.key;
+        switch (key) {
+            case "ArrowUp":
+            case "ArrowDown":
+                if (this.hasAttribute("open")) {
+                    if (document.activeElement instanceof CustomInputElement) {
+                        const firstOption =
+                            document.activeElement.querySelector(
+                                "x-option:not([selected])"
+                            );
+                        firstOption?.focus();
+                    } else if (
+                        document.activeElement instanceof CustomOptionElement
+                    ) {
+                        if (key == "ArrowUp") {
+                            findMatchingSibling(
+                                document.activeElement,
+                                "x-option:not([selected ])",
+                                false
+                            )?.focus();
+                        } else {
+                            findMatchingSibling(
+                                document.activeElement,
+                                "x-option:not([selected])",
+                                true
+                            )?.focus();
+                        }
+                    }
+                }
+            default:
+                break;
+        }
     }
 
     /**@param {boolean} [force] */

@@ -60,6 +60,10 @@ export class CustomInputElement extends InputBaseElement {
         this.setType(typeAttr);
     }
 
+    get inputElement() {
+        return this.#inputElement;
+    }
+
     set label(label) {
         this.setAttribute("label", label);
     }

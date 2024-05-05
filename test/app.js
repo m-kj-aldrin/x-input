@@ -9,6 +9,13 @@ normal value: ${e.target.normalValue}`);
     }
 });
 
+const inputDelBtn = document.createElement("x-input").setType("momentary");
+inputDelBtn.setOption({ noLabel: true });
+inputDelBtn.label = "remove";
+inputDelBtn.innerHTML = "&Cross;";
+
+document.body.append(inputDelBtn);
+
 const input0 = document.createElement("x-input").setType("momentary");
 input0.label = "cycle reset";
 input0.setOption({ noLabel: true });
@@ -26,12 +33,27 @@ const input2 = document.createElement("x-input").setType("select");
 input2.label = "wave select";
 input2.innerHTML = `
 <x-option value="0">square</x-option>
-<x-option value="1">sine</x-option>
+<x-option value="1" selected>sine</x-option>
 <x-option value="2">ramp up</x-option>
 <x-option value="3">ramp down</x-option>
 `;
 
 document.body.append(input2);
+
+const gridSelect = document.createElement("x-input").setType("select");
+gridSelect.label = "module type";
+gridSelect.setOption({ grid: true, noLabel: true });
+gridSelect.inputElement.open();
+gridSelect.innerHTML = `
+<x-option>pth</x-option>
+<x-option>lfo</x-option>
+<x-option>bch</x-option>
+<x-option>cha</x-option>
+<x-option>seq</x-option>
+<x-option>rep</x-option>
+`;
+
+document.body.append(gridSelect);
 
 const input3 = document.createElement("x-input").setType("range");
 input3.label = "frq";

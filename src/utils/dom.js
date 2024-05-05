@@ -41,3 +41,32 @@ export function getIndexOfChild(parent, child, selector) {
     }
     return -1;
 }
+
+/**
+ * Finds the next or previous sibling element that matches a given selector.
+ *
+ * @param {Element} element - The starting HTML element.
+ * @param {keyof HTMLElementTagNameMap | string} selector - The CSS selector to match the sibling elements.
+ * @param {boolean} next - Flag to determine direction; true for next, false for previous.
+ * @returns {HTMLElement | null} The matched sibling element or null if no match is found.
+ */
+export function findMatchingSibling(element, selector, next) {
+    // Initialize the variable to hold the current sibling element
+    let sibling = element;
+
+    // Loop to find the matching sibling
+    while (sibling) {
+        // Move to the next or previous sibling based on the 'next' flag
+        sibling = next
+            ? sibling.nextElementSibling
+            : sibling.previousElementSibling;
+
+        // Check if the sibling matches the selector
+        if (sibling && sibling.matches(selector)) {
+            return sibling; // Return the matched sibling
+        }
+    }
+
+    // Return null if no matching sibling is found
+    return null;
+}

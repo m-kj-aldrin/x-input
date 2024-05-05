@@ -102,7 +102,7 @@ export class CustomMomentaryElement extends ButtonBaseElement {
         this.addEventListener("input", this.#pulse.bind(this));
     }
 
-    setOption({ one = 1 }) {}
+    setOption({}) {}
 
     get value() {
         return 0;
@@ -118,7 +118,7 @@ export class CustomMomentaryElement extends ButtonBaseElement {
 const customToggleTemplate = document.createElement("template");
 customToggleTemplate.innerHTML = `
 <style>
-    :host([data-state="on"]) #inner{
+    :host([data-state='on']) #inner{
         color: red;
     }
 </style>
@@ -133,7 +133,7 @@ export class CustomToggleElement extends ButtonBaseElement {
         this.#attachListeners();
     }
 
-    setOption({ bla = "ok", yes = false }) {}
+    setOption({}) {}
 
     /**@returns {"on" | "off"} */
     #getStateAttribute() {
