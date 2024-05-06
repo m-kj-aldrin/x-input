@@ -3,7 +3,7 @@ import { CustomMomentaryElement, CustomToggleElement } from "./x-button.js";
 import { CustomNumberElement } from "./x-number.js";
 import { CustomRangeElement } from "./x-range.js";
 import { CustomSelectElement } from "./x-select.js";
-import { parseKeyValuePairs } from "../../../utils/strings.js";
+import { parseKeyValuePairs } from "../utils/string.js";
 
 /**
  * @typedef {object} InputTypeNameMap
