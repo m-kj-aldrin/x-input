@@ -1,4 +1,5 @@
 import { findMatchingSibling, getActiveElement } from "../utils/dom.js";
+import { stringBoolean } from "../utils/string.js";
 import { InputBaseElement } from "./base.js";
 import { CustomInputElement } from "./x-input.js";
 
@@ -89,11 +90,29 @@ export class CustomSelectElement extends InputBaseElement {
   }
 
   setOption({ grid = false, label = "" }) {
+    let mergedOption = {
+      ...{
+        grid: this.hasAttribute("grid"),
+        label: this.shadowRoot
+          .querySelector("#selected")
+          .getAttribute("static-label"),
+      },
+      grid,
+      label,
+    };
+
+    ({ grid, label } = mergedOption);
+
     this.toggleAttribute("grid", grid);
+
     if (label) {
       this.shadowRoot
         .querySelector("#selected")
         .setAttribute("static-label", label);
+    } else {
+      this.shadowRoot
+        .querySelector("#selected")
+        .removeAttribute("static-label");
     }
   }
 
@@ -150,7 +169,6 @@ export class CustomSelectElement extends InputBaseElement {
         noSelected &&
         !this.shadowRoot.querySelector("#selected").getAttribute("static-label")
       ) {
-        console.log("yo");
         options.at(0).select(true);
       }
     });

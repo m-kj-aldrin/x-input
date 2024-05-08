@@ -90,17 +90,18 @@ selectStatic.innerHTML = `
 <x-option>rep</x-option>
 `;
 
-selectStatic.setOption({ label: "select module" });
+// selectStatic.setOption({ grid: true, label: "select module" });
+selectStatic.setOption({});
 
-const selectDynamic = document.createElement("x-select");
+// const selectDynamic = document.createElement("x-select");
 
-selectDynamic.innerHTML = `
-<x-option>pth</x-option>
-<x-option>lfo</x-option>
-<x-option>bch</x-option>
-<x-option>cha</x-option>
-<x-option>seq</x-option>
-<x-option>rep</x-option>
-`;
+// selectDynamic.innerHTML = `
+// <x-option>pth</x-option>
+// <x-option>lfo</x-option>
+// <x-option>bch</x-option>
+// <x-option>cha</x-option>
+// <x-option>seq</x-option>
+// <x-option>rep</x-option>
+// `;
 
-document.body.append(selectStatic, selectDynamic);
+document.body.append(selectStatic);
