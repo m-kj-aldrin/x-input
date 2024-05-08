@@ -89,7 +89,7 @@ export class CustomSelectElement extends InputBaseElement {
     this.value = this.getAttribute("value");
   }
 
-  setOption({ grid = false, label = "" }) {
+  setOption({ grid = false, staticLabel = "" }) {
     let mergedOption = {
       ...{
         grid: this.hasAttribute("grid"),
@@ -98,17 +98,17 @@ export class CustomSelectElement extends InputBaseElement {
           .getAttribute("static-label"),
       },
       grid,
-      label,
+      staticLabel,
     };
 
-    ({ grid, label } = mergedOption);
+    ({ grid, staticLabel } = mergedOption);
 
     this.toggleAttribute("grid", grid);
 
-    if (label) {
+    if (staticLabel) {
       this.shadowRoot
         .querySelector("#selected")
-        .setAttribute("static-label", label);
+        .setAttribute("static-label", staticLabel);
     } else {
       this.shadowRoot
         .querySelector("#selected")
