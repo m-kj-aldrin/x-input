@@ -79,33 +79,51 @@ normal value: ${e.target.normalValue}`);
 
 // document.body.append(input5);
 
-const selectStatic = document.createElement("x-input").setType("select");
-selectStatic.innerHTML = `
-<x-option>pth</x-option>
-<x-option>lfo</x-option>
-<x-option>bch</x-option>
-<x-option>cha</x-option>
-<x-option>seq</x-option>
-<x-option>rep</x-option>
+// const selectStatic = document.createElement("x-input").setType("select");
+// selectStatic.innerHTML = `
+// <x-option>pth</x-option>
+// <x-option>lfo</x-option>
+// <x-option>bch</x-option>
+// <x-option>cha</x-option>
+// <x-option>seq</x-option>
+// <x-option>rep</x-option>
+// `;
+
+// selectStatic.label = "select module";
+// selectStatic.setOption({
+//   grid: true,
+//   staticLabel: "select module",
+//   noLabel: true,
+// });
+
+// const selectDynamic = document.createElement("x-input").setType("select");
+// selectDynamic.innerHTML = `
+// <x-option>pth</x-option>
+// <x-option>lfo</x-option>
+// <x-option>bch</x-option>
+// <x-option>cha</x-option>
+// <x-option>seq</x-option>
+// <x-option>rep</x-option>
+// `;
+
+// selectDynamic.label = "select module";
+// selectDynamic.setOption({ noLabel: true });
+// document.body.append(selectStatic, selectDynamic);
+
+const nestedSelect = document.createElement("x-select");
+nestedSelect.setOption({ staticLabel: "menu" });
+
+nestedSelect.innerHTML = `
+<x-option noselect >
+    <x-select static-label="modules" grid="true">
+        <x-option>pth</x-option>
+        <x-option>lfo</x-option>
+        <x-option>bch</x-option>
+        <x-option>cha</x-option>
+        <x-option>seq</x-option>
+        <x-option>rep</x-option>
+    </x-select>
+</x-option>
 `;
 
-selectStatic.label = "select module";
-selectStatic.setOption({
-  grid: true,
-  staticLabel: "select module",
-  noLabel: true,
-});
-
-const selectDynamic = document.createElement("x-input").setType("select");
-selectDynamic.innerHTML = `
-<x-option>pth</x-option>
-<x-option>lfo</x-option>
-<x-option>bch</x-option>
-<x-option>cha</x-option>
-<x-option>seq</x-option>
-<x-option>rep</x-option>
-`;
-
-selectDynamic.label = "select module";
-selectDynamic.setOption({ noLabel: true });
-document.body.append(selectStatic, selectDynamic);
+document.body.append(nestedSelect);

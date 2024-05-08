@@ -87,6 +87,12 @@ export class CustomSelectElement extends InputBaseElement {
     this.#attachListeners();
 
     this.value = this.getAttribute("value");
+    let staticLabelAttr = this.getAttribute("static-label");
+    let gridAttr = this.getAttribute("grid");
+    this.setOption({
+      grid: stringBoolean(gridAttr),
+      staticLabel: staticLabelAttr,
+    });
   }
 
   setOption({ grid = false, staticLabel = "" }) {
@@ -100,6 +106,8 @@ export class CustomSelectElement extends InputBaseElement {
       grid,
       staticLabel,
     };
+
+    console.log(mergedOption);
 
     ({ grid, staticLabel } = mergedOption);
 
@@ -169,7 +177,7 @@ export class CustomSelectElement extends InputBaseElement {
         noSelected &&
         !this.shadowRoot.querySelector("#selected").getAttribute("static-label")
       ) {
-        options.at(0).select(true);
+        options.at(0)?.select(true);
       }
     });
 
@@ -419,6 +427,7 @@ export class CustomOptionElement extends HTMLElement {
   /**@param {MouseEvent} e */
   #clickHandler(e) {
     if (this.hasAttribute("selected")) return;
+    if (this.hasAttribute("noselect")) return;
     this.select();
   }
 
