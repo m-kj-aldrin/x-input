@@ -6,7 +6,7 @@ import { CustomInputElement } from "./x-input.js";
  * @this {HTMLElement}
  * @param {MouseEvent} e
  */
-function clickOutside(e) {
+export function clickOutside(e) {
     let composedPath = e.composedPath();
     let isInsideThis = composedPath.includes(this);
 
@@ -277,7 +277,9 @@ export class CustomSelectElement extends InputBaseElement {
     }
     set value(value) {
         // console.log("select v: ", value);
+        // console.log(this.#getAssignedOptions());
         this.#getAssignedOptions().forEach((option, i) => {
+            // console.log(option.value, value);
             // console.log("opt value: ",option.value, value);
             if (option.value == `${value}`) {
                 option.dispatchEvent(new SelectEvent(true));

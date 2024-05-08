@@ -49,6 +49,7 @@ buttonBaseTemplate.innerHTML = `
 
 export class ButtonBaseElement extends InputBaseElement {
     #keyPressState = false;
+    #pointerState = false;
 
     constructor() {
         super();
@@ -84,10 +85,24 @@ export class ButtonBaseElement extends InputBaseElement {
         }
     }
 
+    /**@param {PointerEvent} e */
+    #handlePointer(e) {
+        if (e.type == "pointerdown") {
+            this.#pointerState = true;
+        } else if (e.type == "pointerup") {
+            if (this.#pointerState) {
+                this.emitInput();
+            }
+            this.#pointerState = false;
+        }
+    }
+
     #attachListeners() {
         this.addEventListener("keydown", this.#handleKeyPress.bind(this));
         this.addEventListener("keyup", this.#handleKeyPress.bind(this));
-        this.addEventListener("pointerup", this.emitInput.bind(this));
+        // this.addEventListener("pointerup", this.emitInput.bind(this));
+        this.addEventListener("pointerdown", this.#handlePointer.bind(this));
+        this.addEventListener("pointerup", this.#handlePointer.bind(this));
         this.addEventListener("focusout", (e) => {
             this.removeAttribute("keydown");
         });
