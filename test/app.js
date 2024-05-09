@@ -10,13 +10,15 @@ normal value: ${e.target.normalValue}`);
     }
 });
 
-document.body.innerHTML = `
-<x-select value="hat">
-    <x-option >cat</x-option>
-    <x-option selected>dog</x-option>
-    <x-option>hat</x-option>
-</x-select>
-`;
+
+
+// document.body.innerHTML = `
+// <x-select value="hat" blank-start>
+//     <x-option >cat</x-option>
+//     <x-option >dog</x-option>
+//     <x-option>hat</x-option>
+// </x-select>
+// `;
 
 // const buttonMomentary = document.createElement("x-momentary");
 // buttonMomentary.textContent = "pulse";
@@ -47,18 +49,18 @@ document.body.innerHTML = `
 
 // document.body.append(range0, range1);
 
-// const select0 = document.createElement("x-select");
-// select0.name = "wave select";
-// select0.label = "select a waveform";
-// select0.value = "square";
-// select0.innerHTML = `
-// <x-option>sine</x-option>
-// <x-option>square</x-option>
-// <x-option>ramp up</x-option>
-// <x-option>ramp down</x-option>
-// `;
+const select0 = document.createElement("x-select");
+select0.name = "wave select";
+select0.label = "select a waveform";
+select0.setOption({blankStart:true})
+select0.innerHTML = `
+<x-option>sine</x-option>
+<x-option>square</x-option>
+<x-option>ramp up</x-option>
+<x-option>ramp down</x-option>
+`;
 
-// document.body.append(select0);
+document.body.append(select0);
 
 // const select1 = document.createElement("x-select");
 // select1.name = "insert module";

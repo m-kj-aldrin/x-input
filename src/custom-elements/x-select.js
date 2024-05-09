@@ -44,6 +44,9 @@ customSelectTemplate.innerHTML = `
         border-bottom-width: 2px;
         max-width: max-content;
     }
+    #selected:empty::before{
+        content: "\\00a0";
+    }
     #selected:focus{
         outline: none;
         border-bottom-color: red;
@@ -96,18 +99,26 @@ export class CustomSelectElement extends InputBaseElement {
         let staticLabel = this.hasAttribute("static-label");
         let gridAttr = this.hasAttribute("grid");
         let valueAttr = this.getAttribute("value");
+        let blankAttr = this.hasAttribute("blank-start");
+
         this.value = valueAttr;
 
         this.setOption({
             grid: gridAttr,
             staticLabel: staticLabel,
+            blankStart: blankAttr,
         });
     }
 
     #grid = false;
     #staticLabel = false;
+    #blankStart = false;
 
-    setOption({ grid = this.#grid, staticLabel = this.#staticLabel }) {
+    setOption({
+        grid = this.#grid,
+        staticLabel = this.#staticLabel,
+        blankStart = this.#blankStart,
+    }) {
         this.toggleAttribute("grid", grid);
 
         if (staticLabel) {
@@ -119,7 +130,11 @@ export class CustomSelectElement extends InputBaseElement {
                 .querySelector("#selected")
                 .removeAttribute("static-label");
         }
+
+        this.#blankStart = blankStart;
     }
+
+    #init = false;
 
     #attachListeners() {
         this.addEventListener("select", this.#selectHandler.bind(this));
@@ -156,15 +171,18 @@ export class CustomSelectElement extends InputBaseElement {
 
             let optionByValue = options.find((o) => o.value == this.#value);
 
-            if (optionByValue) {
-                optionByValue.select(true);
-            } else if (
-                noSelected &&
-                !this.shadowRoot
-                    .querySelector("#selected")
-                    .getAttribute("static-label")
-            ) {
-                options.at(0)?.select(true);
+            if (!this.#init && this.#blankStart) {
+            } else {
+                if (optionByValue) {
+                    optionByValue.select(true);
+                } else if (
+                    noSelected &&
+                    !this.shadowRoot
+                        .querySelector("#selected")
+                        .getAttribute("static-label")
+                ) {
+                    options.at(0)?.select(true);
+                }
             }
         });
 
@@ -247,6 +265,8 @@ export class CustomSelectElement extends InputBaseElement {
                 new InputEvent("input", { bubbles: true, composed: true })
             );
         }
+
+        this.#init = true;
     }
 
     get value() {
