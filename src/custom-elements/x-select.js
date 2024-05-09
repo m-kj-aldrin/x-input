@@ -1,5 +1,3 @@
-import { findMatchingSibling, getActiveElement } from "../utils/dom.js";
-import { stringBoolean } from "../utils/string.js";
 import { InputBaseElement } from "./base.js";
 
 /**
@@ -97,6 +95,8 @@ export class CustomSelectElement extends InputBaseElement {
 
         let staticLabel = this.hasAttribute("static-label");
         let gridAttr = this.hasAttribute("grid");
+        let valueAttr = this.getAttribute("value");
+        this.value = valueAttr;
 
         this.setOption({
             grid: gridAttr,
@@ -139,19 +139,6 @@ export class CustomSelectElement extends InputBaseElement {
             });
 
         this.shadowRoot.addEventListener("slotchange", (e) => {
-            // /**@type {HTMLSlotElement} */
-            // let slot = e.target;
-
-            // let host = this.getRootNode().host;
-            // if (host instanceof CustomInputElement && slot.id != "input-slot")
-            //     return;
-
-            //   let options = [...this.querySelectorAll("x-option")];
-
-            // /**@type {CustomOptionElement[]} */
-            // let options = slot
-            //     .assignedElements()
-            //     .filter((el) => el instanceof CustomOptionElement);
             let options = [...this.querySelectorAll("x-option")];
 
             let minLength = options.reduce((prev, curr) => {
@@ -167,7 +154,12 @@ export class CustomSelectElement extends InputBaseElement {
                 (option) => !option.hasAttribute("selected")
             );
 
-            if (
+            let valueAttr = this.getAttribute("value");
+            let optionByValue = options.find((o) => o.value == valueAttr);
+
+            if (optionByValue) {
+                optionByValue.select(true);
+            } else if (
                 noSelected &&
                 !this.shadowRoot
                     .querySelector("#selected")
@@ -206,7 +198,6 @@ export class CustomSelectElement extends InputBaseElement {
 
     /**@param {boolean} state */
     #toggleTabIndex(state) {
-        // let optionElements = this.#getAssignedOptions();
         let optionElements = [...this.querySelectorAll("x-option")];
         if (state) {
             optionElements
@@ -221,19 +212,6 @@ export class CustomSelectElement extends InputBaseElement {
         }
     }
 
-    // /**@returns {CustomOptionElement[]} */
-    // #getAssignedOptions() {
-    //     /**@type {HTMLSlotElement} */
-    //     let slot = this.shadowRoot.querySelector("#list slot");
-    //     let assignedElements = slot.assignedElements();
-    //     if (assignedElements.at(0) instanceof HTMLSlotElement) {
-    //         assignedElements = assignedElements.at(0).assignedElements();
-    //     }
-    //     return assignedElements.filter(
-    //         (el) => el instanceof CustomOptionElement
-    //     );
-    // }
-
     /**@param {SelectEvent} e*/
     #selectHandler(e) {
         if (!(e.target instanceof CustomOptionElement)) return;
@@ -247,13 +225,6 @@ export class CustomSelectElement extends InputBaseElement {
 
         e.target.toggleAttribute("selected", true);
 
-        // this.#getAssignedOptions();
-
-        // this.#getAssignedOptions().forEach((option) => {
-        //     if (option != e.target) {
-        //         option.removeAttribute("selected");
-        //     }
-        // });
         this.querySelectorAll("x-option").forEach((option) => {
             if (option != e.target) {
                 option.removeAttribute("selected");
@@ -284,16 +255,14 @@ export class CustomSelectElement extends InputBaseElement {
     }
     set value(value) {
         this.#value = value;
+        this.#pickOption();
+    }
+    #pickOption() {
         this.querySelectorAll("x-option").forEach((option) => {
-            if (option.value == `${value}`) {
+            if (option.value == `${this.#value}`) {
                 option.dispatchEvent(new SelectEvent(true));
             }
         });
-        // this.#getAssignedOptions().forEach((option, i) => {
-        //     if (option.value == `${value}`) {
-        //         option.dispatchEvent(new SelectEvent(true));
-        //     }
-        // });
     }
     get normalValue() {
         return this.#value;
@@ -311,7 +280,7 @@ export class CustomSelectElement extends InputBaseElement {
         }
     }
     connectedCallback() {
-        this.value = this.#value;
+        this.#pickOption();
         super.connectedCallback();
     }
 
