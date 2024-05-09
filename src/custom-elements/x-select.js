@@ -95,12 +95,14 @@ export class CustomSelectElement extends InputBaseElement {
 
         this.#attachListeners();
 
-        // this.value = this.getAttribute("value");
-        let staticLabelAttr = this.getAttribute("static-label");
-        let gridAttr = this.getAttribute("grid");
+        let nameAttr = this.getAttribute("name");
+        this.name = nameAttr;
+
+        let staticLabel = this.hasAttribute("static-label");
+        let gridAttr = this.hasAttribute("grid");
         this.setOption({
-            grid: stringBoolean(gridAttr),
-            staticLabel: stringBoolean(staticLabelAttr),
+            grid: gridAttr,
+            staticLabel: staticLabel,
         });
     }
 
