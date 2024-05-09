@@ -10,13 +10,13 @@ normal value: ${e.target.normalValue}`);
     }
 });
 
-document.body.innerHTML = `
-<x-select>
-    <x-option>cat</x-option>
-    <x-option>dog</x-option>
-    <x-option>hat</x-option>
-</x-select>
-`;
+// document.body.innerHTML = `
+// <x-select>
+//     <x-option>cat</x-option>
+//     <x-option>dog</x-option>
+//     <x-option>hat</x-option>
+// </x-select>
+// `;
 
 // const buttonMomentary = document.createElement("x-momentary");
 // buttonMomentary.textContent = "pulse";
@@ -47,30 +47,30 @@ document.body.innerHTML = `
 
 // document.body.append(range0, range1);
 
-// const select0 = document.createElement("x-select");
-// select0.name = "wave select";
-// select0.label = "select a waveform";
-// select0.value = "square";
-// select0.innerHTML = `
-// <x-option>sine</x-option>
-// <x-option>square</x-option>
-// <x-option>ramp up</x-option>
-// <x-option>ramp down</x-option>
-// `;
+const select0 = document.createElement("x-select");
+select0.name = "wave select";
+select0.label = "select a waveform";
+select0.value = "square";
+select0.innerHTML = `
+<x-option>sine</x-option>
+<x-option>square</x-option>
+<x-option>ramp up</x-option>
+<x-option>ramp down</x-option>
+`;
 
-// const select1 = document.createElement("x-select");
-// select1.name = "insert module";
-// select1.setOption({ staticLabel: true, grid: true });
-// select1.innerHTML = `
-// <x-option>pth</x-option>
-// <x-option>lfo</x-option>
-// <x-option>cha</x-option>
-// <x-option>rep</x-option>
-// <x-option>bch</x-option>
-// <x-option>seq</x-option>
-// `;
+const select1 = document.createElement("x-select");
+select1.name = "insert module";
+select1.setOption({ staticLabel: true, grid: true });
+select1.innerHTML = `
+<x-option>pth</x-option>
+<x-option>lfo</x-option>
+<x-option>cha</x-option>
+<x-option>rep</x-option>
+<x-option>bch</x-option>
+<x-option>seq</x-option>
+`;
 
-// document.body.append(select0, select1);
+document.body.append(select0, select1);
 
 // const number = document.createElement("x-number");
 // number.label = "free";

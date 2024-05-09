@@ -42,7 +42,7 @@ export class InputBaseElement extends HTMLElement {
     }
     set label(label) {
         if (label == undefined) return;
-        this.setAttribute("label", label);
+        // this.setAttribute("label", label);
         this.#label = label;
     }
 
@@ -51,7 +51,7 @@ export class InputBaseElement extends HTMLElement {
         return this.#name || this.#label;
     }
     set name(name) {
-        this.setAttribute("name", name);
+        // this.setAttribute("name", name);
         this.#name = name;
     }
 
@@ -67,6 +67,9 @@ export class InputBaseElement extends HTMLElement {
 
     setOption(opt) {}
 
-    connectedCallback() {}
+    connectedCallback() {
+        this.setAttribute("name", this.#name);
+        this.setAttribute("label", this.#label);
+    }
     disconnectedCallback() {}
 }

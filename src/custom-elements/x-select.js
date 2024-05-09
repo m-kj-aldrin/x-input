@@ -97,6 +97,7 @@ export class CustomSelectElement extends InputBaseElement {
 
         let staticLabel = this.hasAttribute("static-label");
         let gridAttr = this.hasAttribute("grid");
+
         this.setOption({
             grid: gridAttr,
             staticLabel: staticLabel,
@@ -311,10 +312,12 @@ export class CustomSelectElement extends InputBaseElement {
     }
     connectedCallback() {
         this.value = this.#value;
+        super.connectedCallback();
     }
 
     disconnectedCallback() {
         this.#attachClickOutside(true);
+        super.disconnectedCallback();
     }
 }
 
