@@ -4,23 +4,28 @@ import { InputBaseElement } from "./base.js";
 const customNumbertemplate = document.createElement("template");
 customNumbertemplate.innerHTML = `
 <style>
-  :host{
-    max-width: max-content;
-  }
-  [contenteditable="true"]{
-    border-bottom: 2px currentColor solid;
-    min-width: 2ch;
-    width: max-content;
-  }
-  [contenteditable="true"]:focus{
-    outline: none;
-    border-bottom-color: red;
-  }
-  ::slotted([slot="label"]){
-    margin-bottom: 2px;
-  }
+    :host{
+        max-width: max-content;
+    }
+    :host([label])::before{
+        margin-bottom: 4px;
+        display: block;
+        content: attr(label);
+        white-space: nowrap;
+    }
+    [contenteditable="true"]{
+        border-bottom: 2px currentColor solid;
+        min-width: 2ch;
+        width: max-content;
+    }
+    [contenteditable="true"]:focus{
+        outline: none;
+        border-bottom-color: red;
+    }
+    ::slotted([slot="label"]){
+        margin-bottom: 2px;
+    }
 </style>
-<slot name="label"></slot>
 <div contenteditable="true"></div>
 `;
 

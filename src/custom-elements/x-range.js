@@ -8,7 +8,6 @@ customRangeTemplate.innerHTML = `
     :host{
         display: block;
         cursor: ew-resize;
-        font-family: monospace;
         overflow: visible;
     }
     :host([label])::before{

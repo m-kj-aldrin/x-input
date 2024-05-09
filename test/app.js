@@ -11,9 +11,11 @@ normal value: ${e.target.normalValue}`);
 });
 
 const buttonMomentary = document.createElement("x-momentary");
+buttonMomentary.textContent = "pulse";
 buttonMomentary.name = "pulse";
 
 const buttonToggle = document.createElement("x-toggle");
+buttonToggle.textContent = "toggle";
 buttonToggle.name = "toggle";
 
 document.body.append(buttonMomentary, buttonToggle);
@@ -48,7 +50,6 @@ select0.innerHTML = `
 <x-option>ramp down</x-option>
 `;
 
-
 const select1 = document.createElement("x-select");
 select1.name = "insert module";
 select1.setOption({ staticLabel: true, grid: true });
@@ -62,3 +63,12 @@ select1.innerHTML = `
 `;
 
 document.body.append(select0, select1);
+
+const number = document.createElement("x-number");
+number.label = "free";
+
+document.body.append(number);
+
+let inputs = document.querySelectorAll(
+    "x-momentary,x-toggle,x-select,x-option,x-range,x-number"
+);

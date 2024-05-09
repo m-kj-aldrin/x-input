@@ -18,7 +18,6 @@ buttonBaseTemplate.innerHTML = `
 
     }
     :host(:empty)::before{
-        content: attr(name);
     }
     :host(:not([square])){
         padding: 2px 2px;

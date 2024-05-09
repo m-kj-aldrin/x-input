@@ -2,8 +2,6 @@ import {
     CustomMomentaryElement,
     CustomToggleElement,
 } from "./custom-elements/x-button";
-import { CustomInputElement } from "./custom-elements/x-input";
-import { CustomListElement } from "./custom-elements/x-list";
 import { CustomNumberElement } from "./custom-elements/x-number";
 import { CustomRangeElement } from "./custom-elements/x-range";
 import {
@@ -13,22 +11,27 @@ import {
 
 declare global {
     interface HTMLElementTagNameMap {
-        "x-input": CustomInputElement;
         "x-momentary": CustomMomentaryElement;
         "x-toggle": CustomToggleElement;
         "x-select": CustomSelectElement;
         "x-option": CustomOptionElement;
         "x-range": CustomRangeElement;
         "x-number": CustomNumberElement;
-        "x-list": CustomListElement;
     }
 
-    interface HTMLTagNameAttributeSelectorMap {
-        "x-input[type='momentary']": TypedCustomInputElement<CustomMomentaryElement>;
-        "x-input[type='toggle']": TypedCustomInputElement<CustomToggleElement>;
-        "x-input[type='select']": TypedCustomInputElement<CustomSelectElement>;
-        "x-input[type='range']": TypedCustomInputElement<CustomRangeElement>;
-        "x-input[type='number']": TypedCustomInputElement<CustomRangeElement>;
+    type InputSelector =
+        "x-momentary,x-toggle,x-select,x-option,x-range,x-number";
+    type InputElementUnion =
+        | CustomMomentaryElement
+        | CustomToggleElement
+        | CustomSelectElement
+        | CustomRangeElement
+        | CustomNumberElement;
+
+    interface ParentNode {
+        querySelectorAll<K extends InputSelector>(
+            selectors: K
+        ): NodeListOf<InputElementUnion>;
     }
 
     interface MouseEvent {
@@ -47,12 +50,6 @@ declare global {
         target: HTMLElement;
     }
 
-    interface ParentNode {
-        querySelector<K extends keyof HTMLTagNameAttributeSelectorMap>(
-            selectors: K
-        ): HTMLTagNameAttributeSelectorMap[K] | null;
-    }
-
     interface ShadowRoot {
         addEventListener<K extends keyof HTMLElementEventMap>(
             type: K,
@@ -60,12 +57,6 @@ declare global {
             options?: boolean | AddEventListenerOptions
         ): void;
     }
-}
-
-interface TypedCustomInputElement<T extends InputTypes>
-    extends CustomInputElement {
-    setOption: T["setOption"] | CustomInputElement["setOption"];
-    inputElement: T;
 }
 
 // Utility type to transform a union to a tuple
