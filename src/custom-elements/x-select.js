@@ -174,7 +174,16 @@ export class CustomSelectElement extends InputBaseElement {
                 (option) => !option.hasAttribute("selected")
             );
 
-            if (
+            let optionByValue = options.find(
+                (option) => option.value == this.#value
+            );
+
+            // console.log(this.#value);
+
+            if (optionByValue) {
+                // console.log(optionByValue);
+                optionByValue.select(true);
+            } else if (
                 noSelected &&
                 !this.shadowRoot
                     .querySelector("#selected")
@@ -322,8 +331,10 @@ export class CustomSelectElement extends InputBaseElement {
         return this.#value;
     }
     set value(value) {
+        // console.log("select set value", value, this);
+
         // console.log("select v: ", value);
-        // console.log(this.#getAssignedOptions());
+        this.#value = value;
         this.#getAssignedOptions().forEach((option, i) => {
             // console.log(option.value, value);
             // console.log("opt value: ",option.value, value);

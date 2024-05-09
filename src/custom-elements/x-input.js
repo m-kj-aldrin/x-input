@@ -57,8 +57,11 @@ export class CustomInputElement extends InputBaseElement {
         this.shadowRoot.append(customInputTemplate.content.cloneNode(true));
 
         let typeAttr = this.getAttribute("type");
+        let valueAttr = this.getAttribute("value");
 
         this.setType(typeAttr);
+
+        this.value = valueAttr;
 
         this.#getOptionAttr();
         this.#getMiscAttr();
@@ -93,6 +96,7 @@ export class CustomInputElement extends InputBaseElement {
         return this.#inputElement.value;
     }
     set value(value) {
+        // console.log("input set value", value);
         this.#inputElement.value = value;
     }
     get normalValue() {
