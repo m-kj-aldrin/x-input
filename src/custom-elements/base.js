@@ -14,6 +14,12 @@ export class InputBaseElement extends HTMLElement {
         this.attachShadow({ mode: "open", delegatesFocus });
 
         this.shadowRoot.append(inputBaseTemplate.content.cloneNode(true));
+
+        let nameAttr = this.getAttribute("name");
+        this.name = nameAttr;
+
+        let labelAttr = this.getAttribute("label");
+        this.label = labelAttr;
     }
 
     emitInput() {

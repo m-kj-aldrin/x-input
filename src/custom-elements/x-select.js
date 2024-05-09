@@ -95,9 +95,6 @@ export class CustomSelectElement extends InputBaseElement {
 
         this.#attachListeners();
 
-        let nameAttr = this.getAttribute("name");
-        this.name = nameAttr;
-
         let staticLabel = this.hasAttribute("static-label");
         let gridAttr = this.hasAttribute("grid");
         this.setOption({

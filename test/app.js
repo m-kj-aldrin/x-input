@@ -11,12 +11,7 @@ normal value: ${e.target.normalValue}`);
 });
 
 document.body.innerHTML = `
-<x-select grid static-label name="mod" >
-    <x-option>sine</x-option>
-    <x-option>square</x-option>
-    <x-option>ramp up</x-option>
-    <x-option>ramp down</x-option>
-</x-select>
+<x-momentary name="click" label="bloo">click</x-momentary>
 `;
 
 // const buttonMomentary = document.createElement("x-momentary");
