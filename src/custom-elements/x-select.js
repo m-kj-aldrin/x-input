@@ -44,7 +44,7 @@ customSelectTemplate.innerHTML = `
         border-bottom-width: 2px;
         max-width: max-content;
     }
-    #selected:empty::before{
+    #selected:not([static-label]):empty::before{
         content: "\\00a0";
     }
     #selected:focus{

@@ -16,6 +16,8 @@ buttonBaseTemplate.innerHTML = `
         user-select: none;
         -webkit-user-select: none;
 
+        white-space: nowrap;
+
     }
     :host(:empty)::before{
     }
