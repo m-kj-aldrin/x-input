@@ -154,8 +154,7 @@ export class CustomSelectElement extends InputBaseElement {
                 (option) => !option.hasAttribute("selected")
             );
 
-            let valueAttr = this.getAttribute("value");
-            let optionByValue = options.find((o) => o.value == valueAttr);
+            let optionByValue = options.find((o) => o.value == this.#value);
 
             if (optionByValue) {
                 optionByValue.select(true);
