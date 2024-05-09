@@ -2,11 +2,11 @@ import "../src/custom-elements/index.js";
 import { CustomInputElement } from "../src/custom-elements/x-input.js";
 
 document.body.addEventListener("input", (e) => {
-  //   if (e.target instanceof CustomInputElement) {
-  console.log(`label: ${e.target.label}
+    //   if (e.target instanceof CustomInputElement) {
+    console.log(`label: ${e.target.label}
 value: ${e.target.value}
 normal value: ${e.target.normalValue}`);
-  //   }
+    //   }
 });
 
 // const inputDelBtn = document.createElement("x-input").setType("momentary");
@@ -110,20 +110,46 @@ normal value: ${e.target.normalValue}`);
 // selectDynamic.setOption({ noLabel: true });
 // document.body.append(selectStatic, selectDynamic);
 
-const nestedSelect = document.createElement("x-select");
-nestedSelect.setOption({ staticLabel: "menu" });
+// const nestedSelect = document.createElement("x-select");
+// nestedSelect.setOption({ staticLabel: "menu" });
+// nestedSelect.open()
 
-nestedSelect.innerHTML = `
-<x-option noselect >
-    <x-select static-label="modules" grid="true">
-        <x-option>pth</x-option>
-        <x-option>lfo</x-option>
-        <x-option>bch</x-option>
-        <x-option>cha</x-option>
-        <x-option>seq</x-option>
-        <x-option>rep</x-option>
-    </x-select>
-</x-option>
+// nestedSelect.innerHTML = `
+// <x-option>one</x-option>
+// <x-option>one</x-option>
+// <x-option>one</x-option>
+// <x-option>one</x-option>
+// <x-option>one</x-option>
+// <x-option>one</x-option>
+// `
+
+// nestedSelect.innerHTML = `
+// <x-option noselect >
+//     <x-select open static-label="menu" grid="true">
+//         <x-option>pth</x-option>
+//         <x-option>lfo</x-option>
+//         <x-option>bch</x-option>
+//         <x-option>cha</x-option>
+//         <x-option>seq</x-option>
+//         <x-option>rep</x-option>
+//     </x-select>
+// </x-option>
+// `;
+
+// document.body.append(nestedSelect);
+
+const list0 = document.createElement("x-list");
+
+list0.innerHTML = `
+<x-input type="momentary" label="remove chain" option="noLabel=true">remove</x-input>
+<x-input type="select" option="staticLabel=add module,grid=true,noLabel=true" label="add module">
+    <x-option>pth</x-option>
+    <x-option>lfo</x-option>
+    <x-option>bch</x-option>
+    <x-option>cha</x-option>
+    <x-option>seq</x-option>
+    <x-option>rep</x-option>
+</x-input>
 `;
 
-document.body.append(nestedSelect);
+document.body.append(list0);

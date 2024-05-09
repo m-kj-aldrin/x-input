@@ -3,6 +3,7 @@ import {
     CustomToggleElement,
 } from "./custom-elements/x-button";
 import { CustomInputElement } from "./custom-elements/x-input";
+import { CustomListElement } from "./custom-elements/x-list";
 import { CustomNumberElement } from "./custom-elements/x-number";
 import { CustomRangeElement } from "./custom-elements/x-range";
 import {
@@ -18,7 +19,8 @@ declare global {
         "x-select": CustomSelectElement;
         "x-option": CustomOptionElement;
         "x-range": CustomRangeElement;
-        "x-number": CustomNumberElement
+        "x-number": CustomNumberElement;
+        "x-list": CustomListElement;
     }
 
     interface HTMLTagNameAttributeSelectorMap {
@@ -62,8 +64,8 @@ declare global {
 
 interface TypedCustomInputElement<T extends InputTypes>
     extends CustomInputElement {
-    setOption: T["setOption"] | CustomInputElement['setOption'];
-    inputElement: T
+    setOption: T["setOption"] | CustomInputElement["setOption"];
+    inputElement: T;
 }
 
 // Utility type to transform a union to a tuple
