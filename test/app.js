@@ -11,7 +11,11 @@ normal value: ${e.target.normalValue}`);
 });
 
 document.body.innerHTML = `
-<x-momentary name="click" label="bloo">click</x-momentary>
+<x-select>
+    <x-option>cat</x-option>
+    <x-option>dog</x-option>
+    <x-option>hat</x-option>
+</x-select>
 `;
 
 // const buttonMomentary = document.createElement("x-momentary");

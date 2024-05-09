@@ -41,6 +41,7 @@ export class InputBaseElement extends HTMLElement {
         return this.#label || this.#name;
     }
     set label(label) {
+        if (label == undefined) return;
         this.setAttribute("label", label);
         this.#label = label;
     }
