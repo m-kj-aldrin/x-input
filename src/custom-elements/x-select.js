@@ -331,8 +331,8 @@ export class CustomSelectElement extends InputBaseElement {
         return this.#value;
     }
     set value(value) {
-        // console.log("select set value", value, this);
-
+        // console.log(value,this.#value);
+        // if (value == this.#value) return;
         // console.log("select v: ", value);
         this.#value = value;
         this.#getAssignedOptions().forEach((option, i) => {

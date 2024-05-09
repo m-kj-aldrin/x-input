@@ -23,6 +23,7 @@ customInputTemplate.innerHTML = `
 <style>
     :host(:not([nolabel]))::before{
         content: attr(label);
+        white-space: nowrap;
     }
 </style>
 <div id="input-container">
