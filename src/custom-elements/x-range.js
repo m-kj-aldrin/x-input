@@ -1,7 +1,6 @@
 import { clamp, mapRange, quantize } from "../utils/math.js";
 import { stringBoolean } from "../utils/string.js";
 import { InputBaseElement } from "./base.js";
-import { CustomInputElement } from "./x-input.js";
 
 const customRangeTemplate = document.createElement("template");
 customRangeTemplate.innerHTML = `
@@ -81,14 +80,6 @@ export class CustomRangeElement extends InputBaseElement {
     }
 
     getOptionsAttribute() {
-        let parent = this.getRootNode().host;
-
-        if (parent instanceof CustomInputElement) {
-            let options = this.getOptionsAttribute.call(parent);
-            return options;
-        } else {
-        }
-
         let minAttr = this.getAttribute("min") ?? 0;
         let maxAttr = this.getAttribute("max") ?? 100;
         let stepAttr = this.getAttribute("step") ?? 1;

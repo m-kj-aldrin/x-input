@@ -40,12 +40,14 @@ document.body.append(range0, range1);
 const select0 = document.createElement("x-select");
 select0.name = "wave select";
 select0.label = "select a waveform";
+select0.value = "square";
 select0.innerHTML = `
 <x-option>sine</x-option>
 <x-option>square</x-option>
 <x-option>ramp up</x-option>
 <x-option>ramp down</x-option>
 `;
+
 
 const select1 = document.createElement("x-select");
 select1.name = "insert module";
@@ -54,6 +56,9 @@ select1.innerHTML = `
 <x-option>pth</x-option>
 <x-option>lfo</x-option>
 <x-option>cha</x-option>
+<x-option>rep</x-option>
+<x-option>bch</x-option>
+<x-option>seq</x-option>
 `;
 
 document.body.append(select0, select1);
