@@ -30,6 +30,12 @@ customSelectTemplate.innerHTML = `
         --padding: 2px;
         --gap: 4px;
     }
+    :host([label])::before{
+        margin-bottom: 4px;
+        display: block;
+        content: attr(label);
+        white-space: nowrap;
+    }
     :host([open]) #list{
         opacity: 1;
         pointer-events: unset;
@@ -39,6 +45,7 @@ customSelectTemplate.innerHTML = `
         padding: var(--padding,4px);
         border: 1px currentColor solid;
         border-bottom-width: 2px;
+        max-width: max-content;
     }
     #selected:focus{
         outline: none;
@@ -46,6 +53,7 @@ customSelectTemplate.innerHTML = `
     }
     #selected[static-label]::after {
         content: attr(static-label);
+        white-space: nowrap;
     }
     
     #list{
@@ -93,30 +101,20 @@ export class CustomSelectElement extends InputBaseElement {
         let gridAttr = this.getAttribute("grid");
         this.setOption({
             grid: stringBoolean(gridAttr),
-            staticLabel: staticLabelAttr,
+            staticLabel: stringBoolean(staticLabelAttr),
         });
     }
 
-    setOption({ grid = false, staticLabel = "" }) {
-        let mergedOption = {
-            ...{
-                grid: this.hasAttribute("grid"),
-                label: this.shadowRoot
-                    .querySelector("#selected")
-                    .getAttribute("static-label"),
-            },
-            grid,
-            staticLabel,
-        };
+    #grid = false;
+    #staticLabel = false;
 
-        ({ grid, staticLabel } = mergedOption);
-
+    setOption({ grid = this.#grid, staticLabel = this.#staticLabel }) {
         this.toggleAttribute("grid", grid);
 
         if (staticLabel) {
             this.shadowRoot
                 .querySelector("#selected")
-                .setAttribute("static-label", staticLabel);
+                .setAttribute("static-label", this.name);
         } else {
             this.shadowRoot
                 .querySelector("#selected")
@@ -140,11 +138,6 @@ export class CustomSelectElement extends InputBaseElement {
                     this.open();
                 }
             });
-
-        // this.shadowRoot.addEventListener(
-        //     "keydown",
-        //     this.#keyNavHandler.bind(this)
-        // );
 
         this.shadowRoot.addEventListener("slotchange", (e) => {
             /**@type {HTMLSlotElement} */
@@ -178,10 +171,7 @@ export class CustomSelectElement extends InputBaseElement {
                 (option) => option.value == this.#value
             );
 
-            // console.log(this.#value);
-
             if (optionByValue) {
-                // console.log(optionByValue);
                 optionByValue.select(true);
             } else if (
                 noSelected &&
@@ -207,42 +197,6 @@ export class CustomSelectElement extends InputBaseElement {
             this.open(false);
         });
     }
-
-    // /**@param {KeyboardEvent} e */
-    // #keyNavHandler(e) {
-    //     let key = e.key;
-    //     switch (key) {
-    //         case "ArrowUp":
-    //         case "ArrowDown":
-    //             if (this.hasAttribute("open")) {
-    //                 if (document.activeElement instanceof CustomInputElement) {
-    //                     const firstOption =
-    //                         document.activeElement.querySelector(
-    //                             "x-option:not([selected])"
-    //                         );
-    //                     firstOption?.focus();
-    //                 } else if (
-    //                     document.activeElement instanceof CustomOptionElement
-    //                 ) {
-    //                     if (key == "ArrowUp") {
-    //                         findMatchingSibling(
-    //                             document.activeElement,
-    //                             "x-option:not([selected ])",
-    //                             false
-    //                         )?.focus();
-    //                     } else {
-    //                         findMatchingSibling(
-    //                             document.activeElement,
-    //                             "x-option:not([selected])",
-    //                             true
-    //                         )?.focus();
-    //                     }
-    //                 }
-    //             }
-    //         default:
-    //             break;
-    //     }
-    // }
 
     /**@param {boolean} [force] */
     open(force) {
@@ -290,8 +244,6 @@ export class CustomSelectElement extends InputBaseElement {
         if (!(e.target instanceof CustomOptionElement)) return;
         e.stopPropagation();
 
-        // console.log(e.target);
-
         this.shadowRoot.querySelector("x-option")?.remove();
 
         /**@type {CustomOptionElement} */ //@ts-ignore
@@ -331,13 +283,8 @@ export class CustomSelectElement extends InputBaseElement {
         return this.#value;
     }
     set value(value) {
-        // console.log(value,this.#value);
-        // if (value == this.#value) return;
-        // console.log("select v: ", value);
         this.#value = value;
         this.#getAssignedOptions().forEach((option, i) => {
-            // console.log(option.value, value);
-            // console.log("opt value: ",option.value, value);
             if (option.value == `${value}`) {
                 option.dispatchEvent(new SelectEvent(true));
             }

@@ -12,23 +12,26 @@ customRangeTemplate.innerHTML = `
         font-family: monospace;
         overflow: visible;
     }
+    :host([label])::before{
+        margin-bottom: 4px;
+        display: block;
+        content: attr(label);
+        white-space: nowrap;
+    }
     #inner:focus{
         outline: none;
     }
     #inner:focus #marker{
         fill: red;
-        /*width: 4px;
-        height: 12px;
-        y: 2px;*/
     }
     #output{
-      user-select: none;
-      -webkit-user-select: none;
+        user-select: none;
+        -webkit-user-select: none;
 
-      display: none;
+        display: none;
     }
     #output[data-show]{
-      display: unset; 
+        display: unset; 
     }
     #inner{
         padding: 4px;
@@ -45,8 +48,8 @@ customRangeTemplate.innerHTML = `
         <g id="marker-group" transform="translate(0 0)">
             <rect id="marker" width="5" height="7" x="-2.5" y="0"></rect>
             <g id="output">
-              <rect id="backdrop" width="0" y="0" text-ancor="" height="0" fill="white"></rect>
-              <text font-size="10" x="0" y="20" text-anchor="middle">hello</text>
+                <rect id="backdrop" width="0" y="0" text-ancor="" height="0" fill="white"></rect>
+                <text font-size="10" x="0" y="20" text-anchor="middle">hello</text>
             </g>
         </g>
     </svg>
@@ -65,12 +68,9 @@ export class CustomRangeElement extends InputBaseElement {
     constructor() {
         super();
 
-        // this.attachShadow({ mode: "open" });
-
         this.shadowRoot.append(customRangeTemplate.content.cloneNode(true));
 
         let options = this.getOptionsAttribute();
-        // console.log("constructor options", options);
         this.setOption(options);
 
         this.#attachListeners();
@@ -107,6 +107,8 @@ export class CustomRangeElement extends InputBaseElement {
         };
     }
 
+    #showOutput = false;
+
     /**
      * @param {object} options
      * @param {number} [options.min]
@@ -117,17 +119,19 @@ export class CustomRangeElement extends InputBaseElement {
      * @param {boolean} [options.showOutput]
      */
     setOption({
-        min = 0,
-        max = 100,
-        step = 1,
-        value = 0,
+        min = this.#min,
+        max = this.#max,
+        step = this.#step,
+        value = this.#value,
         normalValue = undefined,
-        showOutput = false,
+        showOutput = this.#showOutput,
     }) {
         this.#min = min;
         this.#max = max;
         this.#step = step;
         this.#normalStep = this.#step / (this.#max - this.#min);
+        this.#showOutput = showOutput;
+
         if (normalValue != undefined) {
             this.normalValue = normalValue;
         } else {
@@ -179,7 +183,7 @@ export class CustomRangeElement extends InputBaseElement {
 
                 this.value = this.value + direction * this.#step;
                 this.#emit();
-            } else if (this.validKeys(e, "[0-9\.]")) {
+            } else if (this.validKeys(e, "[0-9.]")) {
                 // console.log("key", e.key);
                 this.#keyCapture(e.key);
             }

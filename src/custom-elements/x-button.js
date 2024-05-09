@@ -17,6 +17,9 @@ buttonBaseTemplate.innerHTML = `
         -webkit-user-select: none;
 
     }
+    :host(:empty)::before{
+        content: attr(name);
+    }
     :host(:not([square])){
         padding: 2px 2px;
     }
@@ -36,7 +39,10 @@ buttonBaseTemplate.innerHTML = `
         color: black;
         user-select: none;
         transition: 75ms ease color;
-        transition-delay: 25ms;
+    }
+    #inner:active{
+        color: red;
+        transition-delay: 0ms;
     }
     #inner:focus {
         outline: none;
@@ -65,15 +71,6 @@ export class ButtonBaseElement extends InputBaseElement {
 
     /**@param {KeyboardEvent} e */
     #handleKeyPress(e) {
-        // if (this.validKeys(e)) {
-        //     if (e.type == "keydown" && !this.#keyPressState) {
-        //         this.#keyPressState = true;
-        //         this.emitInput();
-        //     }
-        //     if (e.type == "keyup") {
-        //         this.#keyPressState = false;
-        //     }
-        // }
         if (this.validKeys(e)) {
             if (e.type == "keydown") {
                 this.toggleAttribute("keydown", true);
@@ -100,7 +97,6 @@ export class ButtonBaseElement extends InputBaseElement {
     #attachListeners() {
         this.addEventListener("keydown", this.#handleKeyPress.bind(this));
         this.addEventListener("keyup", this.#handleKeyPress.bind(this));
-        // this.addEventListener("pointerup", this.emitInput.bind(this));
         this.addEventListener("pointerdown", this.#handlePointer.bind(this));
         this.addEventListener("pointerup", this.#handlePointer.bind(this));
         this.addEventListener("focusout", (e) => {
@@ -115,10 +111,6 @@ export class ButtonBaseElement extends InputBaseElement {
 const customMomentaryTemplate = document.createElement("template");
 customMomentaryTemplate.innerHTML = `
 <style>
-    #inner[pulse],#inner:active{
-        color: red;
-        transition-delay: 0ms;
-    }
 </style>
 `;
 
@@ -127,27 +119,9 @@ export class CustomMomentaryElement extends ButtonBaseElement {
         super();
 
         this.shadowRoot.append(customMomentaryTemplate.content.cloneNode(true));
-
-        this.#attachListeners();
     }
 
-    async #pulse() {
-        let pulseElement = this.shadowRoot.querySelector("#inner");
-        pulseElement.toggleAttribute("pulse", true);
-        pulseElement.addEventListener(
-            "transitionend",
-            (e) => {
-                pulseElement.removeAttribute("pulse");
-            },
-            { once: true }
-        );
-    }
-
-    #attachListeners() {
-        this.addEventListener("input", this.#pulse.bind(this));
-    }
-
-    // setOption({}) {}
+    setOption({}) {}
 
     get value() {
         return 0;
@@ -178,7 +152,7 @@ export class CustomToggleElement extends ButtonBaseElement {
         this.#attachListeners();
     }
 
-    // setOption({}) {}
+    setOption({}) {}
 
     /**@returns {"on" | "off"} */
     #getStateAttribute() {

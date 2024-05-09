@@ -1,6 +1,10 @@
 const inputBaseTemplate = document.createElement("template");
 inputBaseTemplate.innerHTML = `
-
+<style>
+    :host{
+        width: min-content;
+    }
+</style>
 `;
 
 export class InputBaseElement extends HTMLElement {
@@ -24,6 +28,24 @@ export class InputBaseElement extends HTMLElement {
             return true;
         }
         return false;
+    }
+
+    #label = "";
+    get label() {
+        return this.#label || this.#name;
+    }
+    set label(label) {
+        this.setAttribute("label", label);
+        this.#label = label;
+    }
+
+    #name = "";
+    get name() {
+        return this.#name || this.#label;
+    }
+    set name(name) {
+        this.setAttribute("name", name);
+        this.#name = name;
     }
 
     get value() {
