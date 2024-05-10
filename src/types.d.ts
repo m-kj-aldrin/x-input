@@ -20,7 +20,7 @@ declare global {
     }
 
     type InputSelector =
-        "x-momentary,x-toggle,x-select,x-option,x-range,x-number";
+        "x-momentary,x-toggle,x-select,x-range,x-number";
     type InputElementUnion =
         | CustomMomentaryElement
         | CustomToggleElement
