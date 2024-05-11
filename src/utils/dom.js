@@ -43,6 +43,20 @@ export function getIndexOfChild(parent, child, selector) {
 }
 
 /**
+ *
+ * @param {HTMLElement} parent
+ * @param {number} index
+ */
+export function getChildByIndex(parent, index) {
+    for (let i = 0; i < parent.children.length; i++) {
+        const child = parent.children[i];
+        if (i == index) {
+            return child;
+        }
+    }
+}
+
+/**
  * Finds the next or previous sibling element that matches a given selector.
  *
  * @param {Element} element - The starting HTML element.

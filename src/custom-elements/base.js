@@ -41,8 +41,9 @@ export class InputBaseElement extends HTMLElement {
         return this.#label || this.#name;
     }
     set label(label) {
-        if (label == undefined) return;
-        // this.setAttribute("label", label);
+        if (typeof label != "string") {
+            return;
+        }
         this.#label = label;
     }
 
@@ -68,8 +69,17 @@ export class InputBaseElement extends HTMLElement {
     setOption(opt) {}
 
     connectedCallback() {
-        this.setAttribute("name", this.#name);
-        this.setAttribute("label", this.#label);
+        if (this.#name) {
+            this.setAttribute("name", this.#name);
+        } else {
+            this.removeAttribute("name");
+        }
+
+        if (this.#label) {
+            this.setAttribute("label", this.#label);
+        } else {
+            this.removeAttribute("label");
+        }
     }
     disconnectedCallback() {}
 }
