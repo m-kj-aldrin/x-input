@@ -32,7 +32,9 @@ customRangeTemplate.innerHTML = `
         display: unset; 
     }
     #inner{
-        padding: 4px;
+        /*padding: 4px;*/
+        padding-inline: 4px;
+        padding-top: 0px;
         padding-bottom: 6px;
     }
     svg{
